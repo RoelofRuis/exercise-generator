@@ -3,21 +3,63 @@ import random
 from model import *
 
 
-def random_pick(lst: list):
-    index = random.randint(0, len(lst) - 1)
-    return lst[index]
+def describe_constraint(constraint: Constraint) -> str:
+    descr = constraint.description
+    for opt in constraint.options:
+        selected = random.choice(opt.choices)
+        descr = descr.replace(opt.placeholder, selected)
+    return descr
 
 
-def generate_idea(option: IdeaOptions) -> str:
-    # Pick 1 output (expand to multiple instruments later on?)
-    # Pick one form, from it, pick number of bars
-    # Pick one tempo
-    # Pick n atmospheres
-    # Pick m constraints
-    pass
+def generate_exercise(option: ExerciseOptions, num_atmospheres: Selection, num_general_constraints: Selection) -> str:
+    output = random.choice(option.outputs)
+    form = random.choice(option.forms)
+    num_bars = random.choice(form.num_bar_options)
+    tempo = random.choice(option.tempi)
+    atmospheres = random.sample(option.atmospheres, random.randint(num_atmospheres.min, num_atmospheres.max))
+    constraints = random.sample(option.general, random.randint(num_general_constraints.min, num_general_constraints.max))
+
+    atmosphere_descr = ' '.join([a.name for a in atmospheres])
+    if len(constraints) > 0:
+        joined_constraints = '\nand '.join([describe_constraint(c) for c in constraints])
+        constraint_descr = f"\nConstrain yourself by {joined_constraints}"
+    else:
+        constraint_descr = ""
+
+    duration = output.per_bar_dur * num_bars
+
+    return f"Write the {output.description} for a {num_bars} bar {atmosphere_descr} {form.name} in {tempo.name} tempo" \
+           f"{constraint_descr}" \
+           f"\nTake {duration} minutes"
 
 
-idea = generate_idea(OPTIONS)
-print(idea)
+OPTIONS = ExerciseOptions(
+    outputs=[
+        Output(description="melody", per_bar_dur=1.0),
+        Output(description="melody and harmony", per_bar_dur=2.5)
+    ],
+    forms=[
+        Form(name="motive", num_bar_options=[2, 4, 6, 8]),
+        Form(name="theme", num_bar_options=[4, 8])
+    ],
+    tempi=[
+        Tempo("slow"), Tempo("medium"), Tempo("quick")
+    ],
+    atmospheres=[
+        Atmosphere("agitated"),
+        Atmosphere("dark"),
+        Atmosphere("light"),
+        Atmosphere("uplifting"),
+        Atmosphere("dense"),
+    ],
+    general=[
+        Constraint("using only {note} notes", [
+            ConstraintOption('{note}', ['quarter', '8th'])
+        ]),
+        Constraint("using only degree I and V"),
+    ]
+)
 
-# print(f"Write the {output} for a {bars} bar {atmosphere} {form} in {tempo} tempo\n")
+
+exercise = generate_exercise(OPTIONS, Selection(1, 1), Selection(0, 2))
+print(exercise)

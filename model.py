@@ -2,7 +2,7 @@ from typing import NamedTuple, List
 
 
 class Output(NamedTuple):
-    value: str
+    description: str
     per_bar_dur: float
 
 
@@ -20,38 +20,24 @@ class Atmosphere(NamedTuple):
     name: str
 
 
+class ConstraintOption(NamedTuple):
+    placeholder: str
+    choices: List[str]
+
+
 class Constraint(NamedTuple):
     description: str
+    options: List[ConstraintOption] = []
 
 
-class IdeaOptions(NamedTuple):
+class ExerciseOptions(NamedTuple):
     outputs: List[Output]
     forms: List[Form]
     tempi: List[Tempo]
     atmospheres: List[Atmosphere]
-    constraints: List[Constraint]
+    general: List[Constraint]
 
 
-OPTIONS = IdeaOptions(
-    outputs=[
-        Output(value="melody", per_bar_dur=1.0),
-        Output(value="melody and harmony", per_bar_dur=2.5)
-    ],
-    forms=[
-        Form(name="motive", num_bar_options=[2, 4, 6, 8]),
-        Form(name="theme", num_bar_options=[4, 8])
-    ],
-    tempi=[
-        Tempo("slow"), Tempo("medium"), Tempo("quick")
-    ],
-    atmospheres=[
-        Atmosphere("agitated"),
-        Atmosphere("dark"),
-        Atmosphere("light"),
-        Atmosphere("uplifting"),
-        Atmosphere("dense"),
-    ],
-    constraints=[
-
-    ]
-)
+class Selection(NamedTuple):
+    min: int
+    max: int
