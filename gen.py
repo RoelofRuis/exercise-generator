@@ -22,41 +22,43 @@ def generate_exercise(option: ExerciseOptions, num_atmospheres: Selection, num_g
     atmosphere_descr = ' '.join([a.name for a in atmospheres])
     if len(constraints) > 0:
         joined_constraints = '\nand '.join([describe_constraint(c) for c in constraints])
-        constraint_descr = f"\nConstrain yourself by {joined_constraints}"
+        constraint_descr = f'\nConstrain yourself by {joined_constraints}'
     else:
-        constraint_descr = ""
+        constraint_descr = ''
 
     duration = output.duration_mod.add(DurationModifier(x=num_bars)).value
 
-    return f"Write the {output.description} for a {num_bars} bar {atmosphere_descr} {form.name} in {tempo.name} tempo" \
-           f"{constraint_descr}" \
-           f"\nTake {duration} minutes"
+    return f'Write the {output.description} for a {num_bars} bar {atmosphere_descr} {form.name} in {tempo.description}' \
+           f'{constraint_descr}' \
+           f'\nTake {duration} minutes'
 
 
 OPTIONS = ExerciseOptions(
     outputs=[
-        Output(description="melody", duration_mod=DurationModifier(1.0)),
-        Output(description="melody and harmony", duration_mod=DurationModifier(2.5))
+        Output(description='melody', duration_mod=DurationModifier(1.0)),
+        Output(description='melody and harmony', duration_mod=DurationModifier(2.5))
     ],
     forms=[
-        Form(name="motive", num_bar_options=[2, 4, 6, 8]),
-        Form(name="theme", num_bar_options=[4, 8])
+        Form(name='motive', num_bar_options=[2, 4, 6, 8]),
+        Form(name='theme', num_bar_options=[4, 8])
     ],
     tempi=[
-        Tempo("slow"), Tempo("medium"), Tempo("quick")
+        Constraint('{tempo} tempo', [
+            ConstraintOption('{tempo}', ['slow', 'medium', 'quick'])
+        ])
     ],
     atmospheres=[
-        Atmosphere("agitated"),
-        Atmosphere("dark"),
-        Atmosphere("light"),
-        Atmosphere("uplifting"),
-        Atmosphere("dense"),
+        Atmosphere('agitated'),
+        Atmosphere('dark'),
+        Atmosphere('light'),
+        Atmosphere('uplifting'),
+        Atmosphere('dense'),
     ],
     general=[
-        Constraint("using only {note} notes", [
+        Constraint('using only {note} notes', [
             ConstraintOption('{note}', ['quarter', '8th'])
         ]),
-        Constraint("using only degree I and V"),
+        Constraint('using only degree I and V'),
     ]
 )
 

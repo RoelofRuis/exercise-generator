@@ -26,10 +26,6 @@ class Form(NamedTuple):
     num_bar_options: List[int]
 
 
-class Tempo(NamedTuple):
-    name: str
-
-
 class Atmosphere(NamedTuple):
     name: str
 
@@ -47,7 +43,7 @@ class Constraint(NamedTuple):
 class ExerciseOptions(NamedTuple):
     outputs: List[Output]
     forms: List[Form]
-    tempi: List[Tempo]
+    tempi: List[Constraint]
     atmospheres: List[Atmosphere]
     general: List[Constraint]
 
