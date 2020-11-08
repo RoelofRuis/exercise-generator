@@ -11,30 +11,30 @@ def generate_exercise(option: ExerciseOptions, num_atmospheres: Selection, num_g
 
     atmosphere_descr = ' '.join([a.name for a in atmospheres])
     if len(constraints) > 0:
-        joined_constraints = '\nand '.join([c.description for c in constraints])
-        constraint_descr = f'\nConstrain yourself by {joined_constraints}'
+        joined_constraints = '\nen '.join([c.description for c in constraints])
+        constraint_descr = f'\nBeperk je door {joined_constraints}'
     else:
         constraint_descr = ''
 
     duration = output.duration_mod.add(DurationModifier(x=num_bars)).value
 
-    return f'Write the {output.description} for a {num_bars} bar {atmosphere_descr} {form.name} in {tempo.description}' \
+    return f'Schrijf {output.description} voor een {atmosphere_descr} {form.name} van {num_bars} maten in {tempo.description}' \
            f'{constraint_descr}' \
-           f'\nTake {duration} minutes'
+           f'\nGebruik hiervoor {duration} minuten'
 
 
 OPTIONS = ExerciseOptions(
     outputs=[
-        Output(description='melody', duration_mod=DurationModifier(1.0)),
-        Output(description='melody and harmony', duration_mod=DurationModifier(2.5))
+        Output(description='melodie', duration_mod=DurationModifier(1.0)),
+        Output(description='melodie en harmonie', duration_mod=DurationModifier(2.5))
     ],
     forms=[
-        Form(name='motive', num_bar_options=[2, 4, 6, 8]),
-        Form(name='theme', num_bar_options=[4, 8])
+        Form(name='het motief', num_bar_options=[2, 4, 6, 8]),
+        Form(name='het thema', num_bar_options=[4, 8])
     ],
     tempi=[
         Constraint('{tempo} tempo', [
-            ConstraintOption('{tempo}', ['slow', 'medium', 'quick'])
+            ConstraintOption('{tempo}', ['langzaam', 'gemiddeld', 'snel'])
         ])
     ],
     atmospheres=[
@@ -45,10 +45,10 @@ OPTIONS = ExerciseOptions(
         Atmosphere('dense'),
     ],
     general=[
-        Constraint('using only {note} notes', [
-            ConstraintOption('{note}', ['quarter', '8th'])
+        Constraint('alleen {note} noten te gebruiken', [
+            ConstraintOption('{note}', ['kwart', 'achtste'])
         ]),
-        Constraint('using only degree I and V'),
+        Constraint('geen noten op de zware maatdelen te plaatsen'),
     ]
 )
 
