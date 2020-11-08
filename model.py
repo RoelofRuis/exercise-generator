@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 from typing import NamedTuple, List
 
 
@@ -36,8 +37,16 @@ class ConstraintOption(NamedTuple):
 
 
 class Constraint(NamedTuple):
-    description: str
+    stencil: str
     options: List[ConstraintOption] = []
+
+    @property
+    def description(self) -> str:
+        descr = self.stencil
+        for opt in self.options:
+            selected = random.choice(opt.choices)
+            descr = descr.replace(opt.placeholder, selected)
+        return descr
 
 
 class ExerciseOptions(NamedTuple):

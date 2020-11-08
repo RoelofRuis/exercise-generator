@@ -1,14 +1,4 @@
-import random
-
 from model import *
-
-
-def describe_constraint(constraint: Constraint) -> str:
-    descr = constraint.description
-    for opt in constraint.options:
-        selected = random.choice(opt.choices)
-        descr = descr.replace(opt.placeholder, selected)
-    return descr
 
 
 def generate_exercise(option: ExerciseOptions, num_atmospheres: Selection, num_general_constraints: Selection) -> str:
@@ -21,7 +11,7 @@ def generate_exercise(option: ExerciseOptions, num_atmospheres: Selection, num_g
 
     atmosphere_descr = ' '.join([a.name for a in atmospheres])
     if len(constraints) > 0:
-        joined_constraints = '\nand '.join([describe_constraint(c) for c in constraints])
+        joined_constraints = '\nand '.join([c.description for c in constraints])
         constraint_descr = f'\nConstrain yourself by {joined_constraints}'
     else:
         constraint_descr = ''
