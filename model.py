@@ -1,15 +1,29 @@
+from __future__ import annotations
+
 from typing import NamedTuple, List
+
+
+class DurationModifier(NamedTuple):
+    a: float = 0.0
+    b: float = 0.0
+    x: float = 0.0
+
+    @property
+    def value(self) -> float:
+        return (self.a * self.x) + self.b
+
+    def add(self, that: DurationModifier) -> DurationModifier:
+        return DurationModifier(self.a + that.a, self.b + that.b, self.x + that.x)
 
 
 class Output(NamedTuple):
     description: str
-    per_bar_dur: float
+    duration_mod: DurationModifier
 
 
 class Form(NamedTuple):
     name: str
     num_bar_options: List[int]
-    duration_multiplier: float = 1.0
 
 
 class Tempo(NamedTuple):

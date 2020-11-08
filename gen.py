@@ -26,7 +26,7 @@ def generate_exercise(option: ExerciseOptions, num_atmospheres: Selection, num_g
     else:
         constraint_descr = ""
 
-    duration = output.per_bar_dur * num_bars
+    duration = output.duration_mod.add(DurationModifier(x=num_bars)).value
 
     return f"Write the {output.description} for a {num_bars} bar {atmosphere_descr} {form.name} in {tempo.name} tempo" \
            f"{constraint_descr}" \
@@ -35,8 +35,8 @@ def generate_exercise(option: ExerciseOptions, num_atmospheres: Selection, num_g
 
 OPTIONS = ExerciseOptions(
     outputs=[
-        Output(description="melody", per_bar_dur=1.0),
-        Output(description="melody and harmony", per_bar_dur=2.5)
+        Output(description="melody", duration_mod=DurationModifier(1.0)),
+        Output(description="melody and harmony", duration_mod=DurationModifier(2.5))
     ],
     forms=[
         Form(name="motive", num_bar_options=[2, 4, 6, 8]),
