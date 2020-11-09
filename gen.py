@@ -29,8 +29,8 @@ def generate_exercise(option: ExerciseOptions, num_general_constraints: Selectio
 
 OPTIONS = ExerciseOptions(
     outputs=[
-        Output(description='melodie', duration_mod=DurationModifier(1.0)),
-        Output(description='melodie en harmonie', duration_mod=DurationModifier(2.5))
+        Output(description='de melodie', duration_mod=DurationModifier(1.0)),
+        Output(description='de melodie en harmonie', duration_mod=DurationModifier(2.5))
     ],
     forms=[
         Form(name='een motief', num_bar_options=[2, 4, 6, 8]),

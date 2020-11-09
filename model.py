@@ -31,6 +31,10 @@ class ConstraintOption(NamedTuple):
     placeholder: str
     choices: List[str]
 
+    @property
+    def description(self) -> str:
+        return random.choice(self.choices)
+
 
 class Constraint(NamedTuple):
     stencil: str
@@ -40,8 +44,7 @@ class Constraint(NamedTuple):
     def description(self) -> str:
         descr = self.stencil
         for opt in self.options:
-            selected = random.choice(opt.choices)
-            descr = descr.replace(opt.placeholder, selected)
+            descr = descr.replace(opt.placeholder, opt.description)
         return descr
 
 
